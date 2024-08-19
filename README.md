@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## How to Run this project
 
 First, run the development server:
 
@@ -18,23 +18,51 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/addTasks](http://localhost:3000/api/addTasks). This endpoint can be edited in `pages/api/addTasks.js`.
+Configure [Utils](/Utils/config.js) with your own API_URL, PRIVATE_KEY, contractADDRESS, contractAbi.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+I do not have local Bloackchain environment so that I used [Remix IDE](https://remix.ethereum.org/). I created Todo.sol file and written all the functionalities there and used that contract from there.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-## Learn More
+contract TodoList {
+    enum taskStatus {Pending, Finished}
+    address owner;
+    struct Task {
+        string desc;
+        taskStatus status;
+    }
 
-To learn more about Next.js, take a look at the following resources:
+    Task[] public tasks;
+    constructor(){
+        owner = msg.sender;
+    }
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    modifier onlyOwner{
+        require(msg.sender == owner, "Not Owner");
+        _;
+    }
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    function addTask(string memory _desc) public onlyOwner{
+        tasks.push(Task(_desc, taskStatus.Pending));
+    }
 
-## Deploy on Vercel
+    function markAsFinished(uint256 id) public onlyOwner {
+        require(id < tasks.length, "No Task haas been found");
+        tasks[id].status = taskStatus.Finished;
+    }
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    function getAllTasks() public view returns (Task[] memory){
+        return tasks;
+    }
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    function getTask(uint256 id) public view returns (string memory, taskStatus){
+        require(id < tasks.length, "No Task haas been found");
+        return(tasks[id].desc, tasks[id].status);
+    }
+}
+```
+___________
+Give a star if this helps you.
+

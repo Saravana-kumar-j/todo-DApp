@@ -1,6 +1,6 @@
-export const API_URL = "https://eth-sepolia.g.alchemy.com/v2/JgEpRp3-1BThdsqayjSIE1By414978K9"
-export const PRIVATE_KEY = "9406c9bcab89fe25f1927b9b02040cf2a18abe6abc7d2f3308fe2f1355ac3099"
-export const contractADDRESS = "0xa39777c959F05Cc263fdD41c5C1d7EeFb94E8c94"
+export const API_URL = "https://eth-sepolia.g.alchemy.com/v2/JgEpRp3-1BThdsqayjSIE1By414978K9" //Give your API_URL
+export const PRIVATE_KEY = "9406c9bcab89fe25f1927b9b02040cf2a18abe6abc7d2f3308fe2f1355ac3099" // Give your Private key
+export const contractADDRESS = "0xa39777c959F05Cc263fdD41c5C1d7EeFb94E8c94" // Give your Contract Address.
 export const contractAbi = [
 	{
 		"inputs": [
